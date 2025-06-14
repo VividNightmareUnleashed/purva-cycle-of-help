@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycle of Help - Where Kindness Creates Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #F5A623;
+            --secondary: #E85D3D;
+            --accent: #F5A623;
+            --dark: #1F3A3D;
+            --light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1F3A3D 0%, #2C5F5D 100%);
+            min-height: 100vh;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245, 166, 35, 0.2) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .circle1 { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
+        .circle2 { width: 200px; height: 200px; top: 50%; right: 10%; animation-delay: 5s; }
+        .circle3 { width: 250px; height: 250px; bottom: 10%; left: 50%; animation-delay: 10s; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(245, 166, 35, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: color 0.3s;
+        }
+
+        nav.scrolled .logo {
+            color: var(--dark);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            position: relative;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes flow {
+            0%, 100% { 
+                stroke-dasharray: 0 150;
+                stroke-dashoffset: 0;
+            }
+            50% { 
+                stroke-dasharray: 150 150;
+                stroke-dashoffset: -150;
+            }
+        }
+
+        .logo-icon svg path {
+            animation: flow 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav.scrolled .nav-links a {
+            color: var(--dark);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 300;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .hero p {
+            font-size: clamp(18px, 3vw, 24px);
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-button {
+            padding: 18px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .primary-button {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+            font-weight: 600;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 166, 35, 0.4);
+            background: #F7B84B;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--secondary);
+        }
+
+        .secondary-button:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            position: relative;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8f4f1 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: #64748b;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .step-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step-card h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .step-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Waitlist Form */
+        .waitlist-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--dark) 0%, #2C5F5D 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waitlist-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .waitlist-container h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .waitlist-container p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+        }
+
+        .waitlist-form {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .form-group select option {
+            background: var(--dark);
+            color: white;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(245, 166, 35, 0.4);
+            background: #F7B84B;
+        }
+
+        /* Specialist CTA Section */
+        .specialist-cta {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            text-align: center;
+            color: white;
+        }
+
+        .specialist-cta h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            margin-bottom: 20px;
+        }
+
+        .specialist-cta p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .specialist-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-item .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .benefit-item p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Services Grid */
+        .services {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            padding: 30px;
+            border-radius: 15px;
+            background: #f8fafc;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 20px 30px;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 30px 0;
+        }
+
+        .footer-bottom {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 20px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Form Progress */
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 40px 0;
+            position: relative;
+        }
+
+        .form-progress::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: #e5e7eb;
+        }
+
+        .progress-step {
+            position: relative;
+            text-align: center;
+            flex: 1;
+        }
+
+        .progress-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-step.active .progress-step-circle {
+            background: var(--primary);
+            color: white;
+        }
+
+        .progress-step.completed .progress-step-circle {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .progress-step-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Form Sections */
+        .modal-body {
+            padding: 40px;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-section h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 30px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--dark);
+        }
+
+        .modal .form-group input:focus,
+        .modal .form-group select:focus,
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+        }
+
+        .modal .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .helper-text {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            background: rgba(245, 166, 35, 0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: auto;
+        }
+
+        .checkbox-item.selected {
+            border-color: var(--primary);
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .btn-secondary {
+            padding: 14px 28px;
+            background: #f3f4f6;
+            color: var(--dark);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-primary {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Error styling */
+        input.error,
+        select.error,
+        textarea.error {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .checkbox-item.error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+
+            .modal-header {
+                padding: 30px 20px;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .form-progress {
+                padding: 20px 20px 0;
+            }
+
+            .progress-step-label {
+                font-size: 10px;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-circle circle1"></div>
+        <div class="floating-circle circle2"></div>
+        <div class="floating-circle circle3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#E85D3D;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="#1F3A3D" stroke-width="1" opacity="0.1"/>
+                        <path d="M 25 30 Q 50 15, 75 30 Q 90 50, 75 70 Q 50 85, 25 70 Q 10 50, 25 30" fill="none" stroke="url(#grad1)" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+                        <path d="M 30 40 Q 50 30, 70 40 Q 80 50, 70 60 Q 50 70, 30 60 Q 20 50, 30 40" fill="none" stroke="#F5A623" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 35 50 Q 50 40, 65 50 Q 50 60, 35 50" fill="none" stroke="#E85D3D" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                Cycle of Help
+            </div>
+            <div class="nav-links">
+                <a href="#how-it-works">How it Works</a>
+                <a href="#why">Why This Exists</a>
+                <a href="#services">Services</a>
+                <a href="#specialist" onclick="openSpecialistForm()">Become a Specialist</a>
+                <button class="cta-button" onclick="scrollToWaitlist()">Join Waitlist</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Cycle of Help</h1>
+            <p class="tagline" style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 40px; font-weight: 300; animation: fadeInUp 1s ease 0.2s both;">A global karma network</p>
+            
+            <div style="max-width: 900px; margin: 0 auto 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: left; animation: fadeInUp 1s ease 0.4s both;">
+                <div style="text-align: center;">
+                    <h2 style="font-size: clamp(20px, 3vw, 28px); margin-bottom: 10px; font-weight: 400;">Stuck in life?</h2>
+                    <p style="font-size: clamp(18px, 2.5vw, 24px); opacity: 0.9;">Someone can guide you.</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2 style="font-size: clamp(20px, 3vw, 28px); margin-bottom: 10px; font-weight: 400;">Got knowledge?</h2>
+                    <p style="font-size: clamp(18px, 2.5vw, 24px); opacity: 0.9;">Someone can use it.</p>
+                </div>
+                <div style="text-align: center;">
+                    <h2 style="font-size: clamp(20px, 3vw, 28px); margin-bottom: 10px; font-weight: 400;">Help a stranger,</h2>
+                    <p style="font-size: clamp(18px, 2.5vw, 24px); opacity: 0.9;">earn good karma.</p>
+                </div>
+            </div>
+            
+            <div class="hero-buttons" style="animation: fadeInUp 1s ease 0.6s both;">
+                <button class="hero-button primary-button" onclick="scrollToWaitlist()">Seek Guidance</button>
+                <button class="hero-button secondary-button" onclick="openSpecialistForm()">Share Wisdom</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free Consultations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Expert Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Specialists Waiting</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Karma Points Earned</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <h2>How the Karma Cycle Works</h2>
+            <p>Simple steps to give or receive help in our global network</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Sign Up</h3>
+                <p>Join as someone seeking help or as a volunteer expert ready to give back to the community.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Connect</h3>
+                <p>Browse experts or requests. Book free sessions that fit your schedule. Everything happens on our secure platform.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Earn Karma</h3>
+                <p>After receiving help, consider donating your time or expertise. Keep the karma flowing through the network.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why We Built This -->
+    <section id="why" style="position: relative; overflow: hidden;">
+        <div style="padding: 100px 20px; background: linear-gradient(135deg, #1F3A3D 0%, #2C5F5D 100%); color: white; width: 100%; position: relative;">
+            <!-- Background decorative elements -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; opacity: 0.1;">
+                <div style="position: absolute; top: -100px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, #F5A623 0%, transparent 70%); border-radius: 50%;"></div>
+                <div style="position: absolute; bottom: -150px; right: -150px; width: 400px; height: 400px; background: radial-gradient(circle, #E85D3D 0%, transparent 70%); border-radius: 50%;"></div>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+                <h2 style="font-size: clamp(36px, 5vw, 56px); color: white; margin-bottom: 80px; font-weight: 300; display: block; position: relative;">
+                    Why We Built This
+                    <div style="width: 80px; height: 3px; background: linear-gradient(90deg, #F5A623, #E85D3D); margin: 20px auto 0; border-radius: 2px;"></div>
+                </h2>
+                
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.2s forwards;">
+                        Many of us want to help others — as an act of service, out of compassion, or simply because we've once been helped too.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.3s forwards;">
+                        But there's no real place to do it.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.4s forwards;">
+                        No platform. No system. No invitation.
+                    </p>
+                    
+                    <div style="margin: 70px auto; position: relative;">
+                        <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,166,35,0.3), transparent); transform: translateY(-50%);"></div>
+                        <p style="font-size: clamp(22px, 3vw, 28px); line-height: 1.8; color: #F5A623; font-weight: 400; display: block; opacity: 0; animation: fadeInUp 1s ease 0.5s forwards; background: linear-gradient(135deg, #1F3A3D 0%, #2C5F5D 100%); padding: 0 30px; position: relative; display: inline-block;">
+                            Cycle of Help was born from a simple truth:
+                        </p>
+                    </div>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.6s forwards;">
+                        There are people silently struggling.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.7s forwards;">
+                        And there are people who would gladly help — if only they knew where to begin.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.8s forwards;">
+                        This platform gives both a space.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 0.9s forwards;">
+                        Whether you're a therapist, a lawyer, a coach, or just a kind soul — you can share your wisdom here.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 1s forwards;">
+                        And if you're seeking clarity, comfort, or direction — you'll find someone here who truly wants to support you.
+                    </p>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 50px 40px; margin: 80px auto; max-width: 450px; position: relative; opacity: 0; animation: fadeInUp 1s ease 1.1s forwards; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #F5A623, #E85D3D); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">∞</div>
+                        <p style="font-size: clamp(24px, 3vw, 30px); margin-bottom: 25px; color: rgba(255,255,255,0.8); display: block; font-weight: 300;">It's not charity.</p>
+                        <p style="font-size: clamp(24px, 3vw, 30px); margin-bottom: 25px; color: rgba(255,255,255,0.8); display: block; font-weight: 300;">It's not commerce.</p>
+                        <p style="font-size: clamp(32px, 4vw, 40px); background: linear-gradient(135deg, #F5A623, #E85D3D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 400; display: block; margin: 0; text-shadow: 0 0 30px rgba(245,166,35,0.3);">It's a cycle.</p>
+                    </div>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 1.2s forwards;">
+                        One person helps another.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 40px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 1.3s forwards;">
+                        That person helps someone else.
+                    </p>
+                    
+                    <p style="font-size: clamp(18px, 2.5vw, 22px); line-height: 1.8; margin-bottom: 60px; color: rgba(255,255,255,0.9); display: block; opacity: 0; animation: fadeInUp 1s ease 1.4s forwards;">
+                        And the circle expands — gently, quietly, powerfully.
+                    </p>
+                    
+                    <div style="margin: 60px 0; opacity: 0; animation: fadeInUp 1s ease 1.5s forwards;">
+                        <svg width="80" height="80" viewBox="0 0 100 100" style="animation: rotate 20s linear infinite;">
+                            <defs>
+                                <linearGradient id="cycleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#F5A623;stop-opacity:0.6" />
+                                    <stop offset="100%" style="stop-color:#E85D3D;stop-opacity:0.6" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#cycleGradient)" stroke-width="1" opacity="0.3"/>
+                            <path d="M 25 30 Q 50 15, 75 30 Q 90 50, 75 70 Q 50 85, 25 70 Q 10 50, 25 30" 
+                                  fill="none" stroke="url(#cycleGradient)" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="25" cy="30" r="3" fill="#F5A623" opacity="0.8">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="75" cy="30" r="3" fill="#E85D3D" opacity="0.8">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="75" cy="70" r="3" fill="#F5A623" opacity="0.8">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" begin="1s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="25" cy="70" r="3" fill="#E85D3D" opacity="0.8">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    
+                    <div style="opacity: 0; animation: fadeInUp 1s ease 1.6s forwards;">
+                        <p style="font-size: clamp(18px, 2.5vw, 22px); color: rgba(255,255,255,0.7); margin-bottom: 40px; display: block; font-weight: 300; letter-spacing: 0.5px;">
+                            Join us in building something meaningful.
+                        </p>
+                        
+                        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                            <button class="hero-button primary-button" onclick="scrollToWaitlist()" style="position: relative; overflow: hidden;">
+                                <span style="position: relative; z-index: 1;">I Need Help</span>
+                                <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; animation: shimmer 3s infinite;"></div>
+                            </button>
+                            <button class="hero-button secondary-button" onclick="openSpecialistForm()" style="position: relative; overflow: hidden;">
+                                <span style="position: relative; z-index: 1;">I Want to Help</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2>Areas Where You Can Give or Get Help</h2>
+            <p>Our community of experts covers every aspect of life</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h3>Career Counseling</h3>
+                <p>Resume reviews, interview prep, career transitions</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💰</div>
+                <h3>Financial Planning</h3>
+                <p>Budgeting, investing, retirement planning</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧘</div>
+                <h3>Wellness & Yoga</h3>
+                <p>Mental health, meditation, yoga practices</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚖️</div>
+                <h3>Legal Guidance</h3>
+                <p>Basic legal advice, document reviews, rights education</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎓</div>
+                <h3>Education Support</h3>
+                <p>Tutoring, college prep, skill development</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏥</div>
+                <h3>Health & Nutrition</h3>
+                <p>Diet planning, health tips, wellness coaching</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Tech Skills</h3>
+                <p>Coding, digital literacy, software training</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3>Life Coaching</h3>
+                <p>Goal setting, motivation, personal development</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <p style="font-size: 18px; color: #64748b; margin-bottom: 20px;">
+                Are you an expert in any of these areas?
+            </p>
+            <button class="cta-button" onclick="openSpecialistForm()">Register as a Specialist</button>
+        </div>
+    </section>
+
+    <!-- Waitlist Section -->
+    <section class="waitlist-section" id="waitlist">
+        <div class="waitlist-container">
+            <h2>Join the Global Karma Network</h2>
+            <p>Be part of a movement that transforms lives through shared wisdom</p>
+            
+            <!-- Choice Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                <div class="choice-card" onclick="showSeekerForm()" style="background: white; padding: 30px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">🙏</div>
+                    <h3 style="color: var(--dark); margin-bottom: 10px;">I Need Help</h3>
+                    <p style="color: #64748b;">Get free expert consultations</p>
+                </div>
+                <div class="choice-card" onclick="openSpecialistForm()" style="background: white; padding: 30px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                    <h3 style="color: var(--dark); margin-bottom: 10px;">I'm a Specialist</h3>
+                    <p style="color: #64748b;">Share your expertise & earn karma</p>
+                </div>
+            </div>
+
+            <!-- Simple Seeker Form (shown by default) -->
+            <form class="waitlist-form" id="seekerForm" action="https://formspree.io/f/myzjwvqb" method="POST">
+                <h3 style="color: white; margin-bottom: 20px;">Quick Waitlist Sign-up</h3>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="expertise">What kind of help do you need?</label>
+                    <input type="text" id="expertise" name="expertise" placeholder="e.g., Career advice, Financial planning, Legal guidance">
+                </div>
+                <button type="submit" class="submit-button">Join Waitlist</button>
+                <p style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.8);">
+                    Ready to earn karma? <a href="#" onclick="openSpecialistForm()" style="color: white; text-decoration: underline;">Complete specialist registration →</a>
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Specialist CTA Section -->
+    <section class="specialist-cta">
+        <div class="container">
+            <h2>Ready to Earn Good Karma?</h2>
+            <p>Join our network of experts making a difference through free consultations</p>
+            
+            <div class="specialist-benefits">
+                <div class="benefit-item">
+                    <div class="icon">🎯</div>
+                    <h4>Flexible Commitment</h4>
+                    <p>As little as 1 hour/month</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">🌍</div>
+                    <h4>Global Impact</h4>
+                    <p>Help people worldwide</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">🏆</div>
+                    <h4>Recognition</h4>
+                    <p>Build your reputation</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">∞</div>
+                    <h4>Earn Karma</h4>
+                    <p>What goes around comes around</p>
+                </div>
+            </div>
+            
+            <button class="hero-button primary-button" onclick="openSpecialistForm()" style="background: white; color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                Complete Specialist Registration
+            </button>
+            <p style="margin-top: 15px; font-size: 16px; opacity: 0.9;">Join 500+ professionals already signed up</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#why">Why This Exists</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cycle of Help. Building a global karma network, one connection at a time.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Specialist Registration Modal -->
+    <div id="specialistModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h2>Join the Karma Network</h2>
+                <p>Share your wisdom and transform lives</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="form-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-step-circle">1</div>
+                    <div class="progress-step-label">Personal Info</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-step-circle">2</div>
+                    <div class="progress-step-label">Expertise</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-step-circle">3</div>
+                    <div class="progress-step-label">Availability</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="progress-step-circle">4</div>
+                    <div class="progress-step-label">Verification</div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form id="specialistForm" action="https://formspree.io/f/xdkzgaok" method="POST">
+                    <!-- Section 1: Personal Information -->
+                    <div class="form-section active" data-section="1">
+                        <h3>Personal Information</h3>
+                        
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" name="fullName" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input type="tel" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>LinkedIn Profile</label>
+                            <input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+
+                        <div class="form-group">
+                            <label>City, State/Country <span class="required">*</span></label>
+                            <input type="text" name="location" required placeholder="e.g., San Francisco, CA, USA">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Languages Spoken <span class="required">*</span></label>
+                            <input type="text" name="languages" required placeholder="e.g., English, Spanish, Mandarin">
+                            <div class="helper-text">Separate multiple languages with commas</div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Expertise & Qualifications -->
+                    <div class="form-section" data-section="2">
+                        <h3>Your Expertise & Qualifications</h3>
+
+                        <div class="form-group">
+                            <label>Primary Area of Expertise <span class="required">*</span></label>
+                            <select name="primaryExpertise" required onchange="window.updateSkills()">
+                                <option value="">Select your primary expertise</option>
+                                <option value="career">Career Counseling</option>
+                                <option value="finance">Financial Planning</option>
+                                <option value="legal">Legal Advice</option>
+                                <option value="health">Health & Nutrition</option>
+                                <option value="mental-health">Mental Health & Therapy</option>
+                                <option value="education">Education & Tutoring</option>
+                                <option value="tech">Technology & Programming</option>
+                                <option value="business">Business Strategy</option>
+                                <option value="marketing">Marketing & Branding</option>
+                                <option value="spiritual">Spiritual Guidance</option>
+                                <option value="fitness">Fitness & Yoga</option>
+                                <option value="arts">Arts & Creative</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Specific Skills/Specializations <span class="required">*</span></label>
+                            <div class="checkbox-group" id="skillsCheckboxes">
+                                <!-- Dynamically populated based on primary expertise -->
+                            </div>
+                            <input type="text" name="otherSkills" placeholder="Other skills (comma-separated)" style="margin-top: 15px;">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Years of Experience <span class="required">*</span></label>
+                            <select name="experience" required>
+                                <option value="">Select years of experience</option>
+                                <option value="1-3">1-3 years</option>
+                                <option value="4-7">4-7 years</option>
+                                <option value="8-10">8-10 years</option>
+                                <option value="11-15">11-15 years</option>
+                                <option value="16+">16+ years</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Professional Title/Current Role <span class="required">*</span></label>
+                            <input type="text" name="title" required placeholder="e.g., Senior Financial Advisor, Licensed Attorney">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Company/Organization</label>
+                            <input type="text" name="company" placeholder="Current or previous employer">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Brief Bio <span class="required">*</span></label>
+                            <textarea name="bio" required placeholder="Tell us about your background and why you want to help others (this will be shown to help seekers)"></textarea>
+                            <div class="helper-text">Minimum 10 words</div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Availability & Preferences -->
+                    <div class="form-section" data-section="3">
+                        <h3>Availability & Consultation Preferences</h3>
+
+                        <div class="form-group">
+                            <label>How many hours per month can you volunteer? <span class="required">*</span></label>
+                            <select name="hoursPerMonth" required>
+                                <option value="">Select hours</option>
+                                <option value="1">1 hour (2-3 consultations)</option>
+                                <option value="2">2 hours (4-6 consultations)</option>
+                                <option value="3-4">3-4 hours (6-12 consultations)</option>
+                                <option value="5-8">5-8 hours (10-24 consultations)</option>
+                                <option value="9+">9+ hours (I'm very committed!)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preferred Days <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="monday">
+                                    <span>Monday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="tuesday">
+                                    <span>Tuesday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="wednesday">
+                                    <span>Wednesday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="thursday">
+                                    <span>Thursday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="friday">
+                                    <span>Friday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="saturday">
+                                    <span>Saturday</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="days" value="sunday">
+                                    <span>Sunday</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preferred Time Slots <span class="required">*</span></label>
+                            <div class="time-slots">
+                                <div class="time-slot" data-time="morning">Morning<br>(6am-12pm)</div>
+                                <div class="time-slot" data-time="afternoon">Afternoon<br>(12pm-5pm)</div>
+                                <div class="time-slot" data-time="evening">Evening<br>(5pm-9pm)</div>
+                                <div class="time-slot" data-time="night">Night<br>(9pm-12am)</div>
+                            </div>
+                            <input type="hidden" name="timeSlots" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Time Zone <span class="required">*</span></label>
+                            <select name="timezone" required>
+                                <option value="">Select your timezone</option>
+                                <option value="PST">Pacific Time (PST/PDT)</option>
+                                <option value="MST">Mountain Time (MST/MDT)</option>
+                                <option value="CST">Central Time (CST/CDT)</option>
+                                <option value="EST">Eastern Time (EST/EDT)</option>
+                                <option value="GMT">GMT/UTC</option>
+                                <option value="CET">Central European Time</option>
+                                <option value="IST">India Standard Time</option>
+                                <option value="JST">Japan Standard Time</option>
+                                <option value="AEST">Australian Eastern Time</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Consultation Format Preferences <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="format" value="video" checked>
+                                    <span>Video Call</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="format" value="phone">
+                                    <span>Phone Call</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="format" value="chat">
+                                    <span>Text Chat</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="format" value="email">
+                                    <span>Email Exchange</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Verification & Agreement -->
+                    <div class="form-section" data-section="4">
+                        <h3>Verification & Agreement</h3>
+
+                        <div class="form-group">
+                            <label>Professional Credentials/Certifications</label>
+                            <textarea name="credentials" placeholder="List any relevant licenses, certifications, or credentials (e.g., CPA, JD, PMP, etc.)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Why do you want to join Cycle of Help? <span class="required">*</span></label>
+                            <textarea name="motivation" required placeholder="Share your motivation for volunteering your expertise"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How did you hear about us?</label>
+                            <select name="referralSource">
+                                <option value="">Select an option</option>
+                                <option value="social">Social Media</option>
+                                <option value="friend">Friend/Colleague</option>
+                                <option value="search">Google Search</option>
+                                <option value="news">News Article</option>
+                                <option value="professional">Professional Association</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="terms" required>
+                                <span>I agree to provide free consultations and understand that Cycle of Help is a volunteer platform <span class="required">*</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="background" required>
+                                <span>I consent to a basic background verification to ensure the safety of our community <span class="required">*</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="newsletter">
+                                <span>Send me updates about Cycle of Help and tips for effective volunteering</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="form-buttons">
+                        <button type="button" class="btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+                        <button type="button" class="btn-primary" id="nextBtn">Next</button>
+                        <button type="button" class="btn-primary" id="submitBtn" style="display: none;">Submit Application</button>
+                    </div>
+                </form>
+
+                <!-- Success Screen -->
+                <div id="successScreen" style="display: none; text-align: center; padding: 60px 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; font-size: 40px; color: white;">✓</div>
+                    <h2>Thank You for Joining Cycle of Help!</h2>
+                    <p style="margin: 20px 0; color: #6b7280;">Your application has been submitted successfully. We'll review your information and get back to you within 48 hours.</p>
+                    <button class="btn-primary" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 1;
+        const totalSections = 4;
+        let animationObserver;
+
+        // Skills data for different expertise areas
+        window.skillsByExpertise = {
+            career: ['Resume Review', 'Interview Preparation', 'Career Transition', 'Salary Negotiation', 'LinkedIn Optimization', 'Job Search Strategy', 'Performance Reviews', 'Leadership Development'],
+            finance: ['Budgeting', 'Investment Planning', 'Retirement Planning', 'Tax Planning', 'Debt Management', 'Estate Planning', 'Insurance', 'Small Business Finance'],
+            legal: ['Contract Review', 'Employment Law', 'Family Law', 'Immigration', 'Intellectual Property', 'Real Estate', 'Criminal Law', 'Civil Rights'],
+            health: ['Nutrition Planning', 'Weight Management', 'Disease Prevention', 'Supplement Guidance', 'Meal Planning', 'Sports Nutrition', 'Pediatric Nutrition', 'Senior Health'],
+            'mental-health': ['Anxiety Management', 'Depression Support', 'Stress Management', 'Relationship Counseling', 'Grief Counseling', 'Addiction Support', 'PTSD Support', 'Life Transitions'],
+            education: ['Test Preparation', 'College Applications', 'Study Skills', 'Subject Tutoring', 'Learning Disabilities', 'ESL/Language Learning', 'Academic Planning', 'Scholarship Guidance'],
+            tech: ['Web Development', 'Mobile Apps', 'Data Science', 'Cybersecurity', 'Cloud Computing', 'AI/Machine Learning', 'Database Management', 'IT Support'],
+            business: ['Business Planning', 'Market Research', 'Operations', 'Strategic Planning', 'Change Management', 'Project Management', 'Startup Guidance', 'Scaling Strategies'],
+            marketing: ['Digital Marketing', 'Content Strategy', 'Social Media', 'SEO/SEM', 'Brand Development', 'Email Marketing', 'PR Strategy', 'Analytics'],
+            spiritual: ['Meditation', 'Mindfulness', 'Life Purpose', 'Energy Healing', 'Religious Guidance', 'Spiritual Practices', 'Consciousness', 'Inner Peace'],
+            fitness: ['Yoga Instruction', 'Personal Training', 'Injury Prevention', 'Flexibility', 'Strength Training', 'Cardio Programs', 'Senior Fitness', 'Rehabilitation'],
+            arts: ['Creative Writing', 'Visual Arts', 'Music', 'Performance', 'Photography', 'Design', 'Film/Video', 'Creative Coaching']
+        };
+
+        // Global functions
+        window.scrollToWaitlist = function() {
+            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.openSpecialistForm = function() {
+            document.getElementById('specialistModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            currentSection = 1;
+            updateSection(1);
+        };
+
+        window.closeModal = function() {
+            document.getElementById('specialistModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        window.showSeekerForm = function() {
+            document.getElementById('seekerForm').style.display = 'block';
+        };
+
+        window.updateSkills = function() {
+            const expertise = document.querySelector('select[name="primaryExpertise"]').value;
+            const container = document.getElementById('skillsCheckboxes');
+            container.innerHTML = '';
+
+            if (expertise && window.skillsByExpertise[expertise]) {
+                window.skillsByExpertise[expertise].forEach(skill => {
+                    const label = document.createElement('label');
+                    label.className = 'checkbox-item';
+                    label.innerHTML = `
+                        <input type="checkbox" name="skills" value="${skill}">
+                        <span>${skill}</span>
+                    `;
+                    container.appendChild(label);
+
+                    // Add event listener for styling
+                    const checkbox = label.querySelector('input');
+                    checkbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            label.classList.add('selected');
+                        } else {
+                            label.classList.remove('selected');
+                        }
+                    });
+                });
+            }
+        };
+
+        // Form navigation functions
+        function updateSection(newSection) {
+            // Update form sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            const activeSection = document.querySelector(`.form-section[data-section="${newSection}"]`);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+
+            // Update progress bar
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                if (index < newSection - 1) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index === newSection - 1) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+
+            // Update buttons
+            document.getElementById('prevBtn').style.display = newSection === 1 ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = newSection === totalSections ? 'none' : 'flex';
+            document.getElementById('submitBtn').style.display = newSection === totalSections ? 'flex' : 'none';
+
+            currentSection = newSection;
+
+            // Scroll to top of modal
+            const modalContent = document.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.scrollTop = 0;
+            }
+
+            // If moving to section 2, ensure skills are loaded if expertise is selected
+            if (newSection === 2) {
+                const expertiseSelect = document.querySelector('select[name="primaryExpertise"]');
+                if (expertiseSelect && expertiseSelect.value) {
+                    window.updateSkills();
+                }
+            }
+        }
+
+        function validateSection(section) {
+            const currentSectionEl = document.querySelector(`.form-section[data-section="${section}"]`);
+            if (!currentSectionEl) return false;
+
+            const requiredFields = currentSectionEl.querySelectorAll('[required]');
+            let isValid = true;
+            let errors = [];
+
+            requiredFields.forEach(field => {
+                if (field.type === 'checkbox') {
+                    if (!field.checked) {
+                        isValid = false;
+                        field.classList.add('error');
+                        errors.push(`Please check: ${field.parentElement.textContent.trim()}`);
+                    } else {
+                        field.classList.remove('error');
+                    }
+                } else if (!field.value || field.value.trim() === '') {
+                    isValid = false;
+                    field.classList.add('error');
+                    field.style.borderColor = '#ef4444';
+                    const label = field.previousElementSibling;
+                    if (label && label.tagName === 'LABEL') {
+                        errors.push(`Please fill: ${label.textContent.replace('*', '').trim()}`);
+                    }
+                } else {
+                    field.classList.remove('error');
+                    field.style.borderColor = '';
+                }
+            });
+
+            // Special validation for section 2 - skills checkboxes
+            if (section === 2) {
+                const skills = currentSectionEl.querySelectorAll('input[name="skills"]:checked');
+                if (skills.length === 0) {
+                    isValid = false;
+                    errors.push('Please select at least one skill/specialization');
+                }
+                
+                // Validate bio length
+                const bio = currentSectionEl.querySelector('textarea[name="bio"]');
+                if (bio && bio.value.split(' ').length < 10) {
+                    isValid = false;
+                    bio.style.borderColor = '#ef4444';
+                    errors.push('Bio must be at least 10 words');
+                }
+            }
+
+            // Special validation for section 3
+            if (section === 3) {
+                const days = currentSectionEl.querySelectorAll('input[name="days"]:checked');
+                const formats = currentSectionEl.querySelectorAll('input[name="format"]:checked');
+                const timeSlots = currentSectionEl.querySelectorAll('.time-slot.selected');
+
+                if (days.length === 0) {
+                    isValid = false;
+                    errors.push('Please select at least one preferred day');
+                }
+                if (formats.length === 0) {
+                    isValid = false;
+                    errors.push('Please select at least one consultation format');
+                }
+                if (timeSlots.length === 0) {
+                    isValid = false;
+                    errors.push('Please select at least one time slot');
+                }
+            }
+
+            // Show errors if any
+            if (errors.length > 0) {
+                let errorMessage = 'Please complete the following:\n\n';
+                errors.forEach(error => {
+                    errorMessage += '• ' + error + '\n';
+                });
+                alert(errorMessage);
+            }
+
+            return isValid;
+        }
+
+        function updateTimeSlots() {
+            const selected = Array.from(document.querySelectorAll('.time-slot.selected'))
+                .map(slot => slot.dataset.time);
+            const timeSlotsInput = document.querySelector('input[name="timeSlots"]');
+            if (timeSlotsInput) {
+                timeSlotsInput.value = selected.join(', ');
+            }
+        }
+
+        // HTML escaping function for XSS protection
+        function escapeHtml(str) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            };
+            return str.replace(/[&<>"']/g, (m) => map[m]);
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Animation observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            animationObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animations
+            const elements = document.querySelectorAll('.stat-card, .step-card, .service-card');
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                animationObserver.observe(el);
+            });
+
+            // Event listeners for form navigation buttons
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    if (validateSection(currentSection)) {
+                        if (currentSection < totalSections) {
+                            updateSection(currentSection + 1);
+                        }
+                    }
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    if (currentSection > 1) {
+                        updateSection(currentSection - 1);
+                    }
+                });
+            }
+
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    if (!validateSection(currentSection)) {
+                        return false;
+                    }
+                    
+                    // Prepare the form data
+                    const form = document.getElementById('specialistForm');
+                    if (!form) {
+                        console.error('Form not found!');
+                        return;
+                    }
+                    
+                    // Collect and add checkbox data
+                    const days = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(cb => cb.value).join(', ');
+                    const formats = Array.from(document.querySelectorAll('input[name="format"]:checked')).map(cb => cb.value).join(', ');
+                    const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value).join(', ');
+                    const timeSlots = Array.from(document.querySelectorAll('.time-slot.selected')).map(slot => slot.dataset.time).join(', ');
+                    
+                    // Remove any existing hidden inputs
+                    form.querySelectorAll('input[name^="selected"]').forEach(input => input.remove());
+                    
+                    // Add hidden fields with escaped values for XSS protection
+                    form.insertAdjacentHTML('beforeend', `
+                        <input type="hidden" name="selectedDays" value="${escapeHtml(days)}">
+                        <input type="hidden" name="selectedFormats" value="${escapeHtml(formats)}">
+                        <input type="hidden" name="selectedSkills" value="${escapeHtml(skills)}">
+                        <input type="hidden" name="selectedTimeSlots" value="${escapeHtml(timeSlots)}">
+                    `);
+                    
+                    // Update the timeSlots input
+                    const timeSlotsInput = document.querySelector('input[name="timeSlots"]');
+                    if (timeSlotsInput) {
+                        timeSlotsInput.value = timeSlots;
+                    }
+                    
+                    // Submit the form
+                    form.submit();
+                });
+            }
+
+            // Time slots event listeners
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    updateTimeSlots();
+                });
+            });
+
+            // Checkboxes event listeners
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.closest('.checkbox-item').classList.add('selected');
+                    } else {
+                        this.closest('.checkbox-item').classList.remove('selected');
+                    }
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('specialistModal');
+                if (event.target == modal) {
+                    window.closeModal();
+                }
+            });
+
+            // Initialize skills if expertise is already selected
+            const initialExpertise = document.querySelector('select[name="primaryExpertise"]');
+            if (initialExpertise && initialExpertise.value) {
+                window.updateSkills();
+            }
+        });
+
+        // Clean up observer on page unload
+        window.addEventListener('beforeunload', function() {
+            if (animationObserver) {
+                animationObserver.disconnect();
+            }
+        });
+    </script>
+</body>
+</html>
