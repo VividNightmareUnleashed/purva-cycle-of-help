@@ -944,6 +944,28 @@
             background: rgba(239, 68, 68, 0.05);
         }
 
+        /* Toast for validation messages */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ef4444;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav {
@@ -1694,6 +1716,7 @@
         const totalSections = 4;
         let animationObserver;
         let formInitialized = false;
+        let toastTimeout;
 
         // Skills data for different expertise areas
         window.skillsByExpertise = {
@@ -1819,6 +1842,9 @@
         window.closeModal = function() {
             document.getElementById('specialistModal').style.display = 'none';
             document.body.style.overflow = 'auto';
+            if (animationObserver) {
+                animationObserver.disconnect();
+            }
         };
 
         window.showSeekerForm = function() {
@@ -1973,7 +1999,7 @@
                 errors.forEach(error => {
                     errorMessage += '• ' + error + '\n';
                 });
-                alert(errorMessage);
+                showToast(errorMessage);
             }
 
             return isValid;
@@ -1986,6 +2012,17 @@
             if (timeSlotsInput) {
                 timeSlotsInput.value = selected.join(', ');
             }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
         }
 
         // HTML escaping function for XSS protection
@@ -2045,6 +2082,7 @@
                 animationObserver.disconnect();
             }
         });
-    </script>
+</script>
+    <div id="toast" class="toast"></div>
 </body>
 </html>
