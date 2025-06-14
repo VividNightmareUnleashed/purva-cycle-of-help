@@ -398,104 +398,6 @@
             line-height: 1.6;
         }
 
-        /* Waitlist Form */
-        .waitlist-section {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, var(--dark) 0%, #2C5F5D 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .waitlist-container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .waitlist-container h2 {
-            font-size: clamp(32px, 5vw, 48px);
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .waitlist-container p {
-            font-size: 20px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 40px;
-        }
-
-        .waitlist-form {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .choice-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            color: white;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: white;
-            background: rgba(255,255,255,0.15);
-        }
-
-        .form-group select option {
-            background: var(--dark);
-            color: white;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 18px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(245, 166, 35, 0.4);
-            background: #F7B84B;
-        }
 
         /* Specialist CTA Section */
         .specialist-cta {
@@ -1038,7 +940,6 @@
                 <a href="#why">Why This Exists</a>
                 <a href="#services">Services</a>
                 <a href="#specialist" onclick="openSpecialistForm()">Become a Specialist</a>
-                <button class="cta-button" onclick="scrollToWaitlist()">Join Waitlist</button>
             </div>
         </div>
     </nav>
@@ -1065,7 +966,8 @@
             </div>
             
             <div class="hero-buttons" style="animation: fadeInUp 1s ease 0.6s both;">
-                <button class="hero-button primary-button" onclick="scrollToWaitlist()">Seek Guidance</button>
+                <!-- Button restored to launch the seeker request modal -->
+                <button class="hero-button primary-button" onclick="openSeekerForm()">I Need Help</button>
                 <button class="hero-button secondary-button" onclick="openSpecialistForm()">Share Wisdom</button>
             </div>
         </div>
@@ -1224,10 +1126,6 @@
                         </p>
                         
                         <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                            <button class="hero-button primary-button" onclick="scrollToWaitlist()" style="position: relative; overflow: hidden;">
-                                <span style="position: relative; z-index: 1;">I Need Help</span>
-                                <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; animation: shimmer 3s infinite;" aria-hidden="true">&nbsp;</span>
-                            </button>
                             <button class="hero-button secondary-button" onclick="openSpecialistForm()" style="position: relative; overflow: hidden;">
                                 <span style="position: relative; z-index: 1;">I Want to Help</span>
                             </button>
@@ -1291,49 +1189,6 @@
                 Are you an expert in any of these areas?
             </p>
             <button class="cta-button" onclick="openSpecialistForm()">Register as a Specialist</button>
-        </div>
-    </section>
-
-    <!-- Waitlist Section -->
-    <section class="waitlist-section" id="waitlist">
-        <div class="waitlist-container">
-            <h2>Join the Global Karma Network</h2>
-            <p>Be part of a movement that transforms lives through shared wisdom</p>
-            
-            <!-- Choice Cards -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
-                <div class="choice-card" onclick="showSeekerForm()" style="background: white; padding: 30px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease;">
-                    <div style="font-size: 48px; margin-bottom: 15px;">🙏</div>
-                    <h3 style="color: var(--dark); margin-bottom: 10px;">I Need Help</h3>
-                    <p style="color: #64748b;">Get free expert consultations</p>
-                </div>
-                <div class="choice-card" onclick="openSpecialistForm()" style="background: white; padding: 30px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease;">
-                    <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
-                    <h3 style="color: var(--dark); margin-bottom: 10px;">I'm a Specialist</h3>
-                    <p style="color: #64748b;">Share your expertise & earn karma</p>
-                </div>
-            </div>
-
-            <!-- Simple Seeker Form (shown by default) -->
-            <form class="waitlist-form" id="seekerForm" action="https://formspree.io/f/myzjwvqb" method="POST">
-                <h3 style="color: white; margin-bottom: 20px;">Quick Waitlist Sign-up</h3>
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="expertise">What kind of help do you need?</label>
-                    <input type="text" id="expertise" name="expertise" placeholder="e.g., Career advice, Financial planning, Legal guidance">
-                </div>
-                <button type="submit" class="submit-button">Join Waitlist</button>
-                <p style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.8);">
-                    Ready to earn karma? <a href="#" onclick="openSpecialistForm()" style="color: white; text-decoration: underline;">Complete specialist registration →</a>
-                </p>
-            </form>
         </div>
     </section>
 
@@ -1688,6 +1543,40 @@
         </div>
     </div>
 
+    <!-- Seeker Request Modal -->
+    <div id="seekerModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSeekerModal()">&times;</button>
+
+            <div class="modal-header">
+                <h2>Request Guidance</h2>
+                <p>Tell us what you need help with</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- Formspree endpoint for seeker requests -->
+                <form id="seekerForm" action="https://formspree.io/f/myzjwvqb" method="POST">
+                    <div class="form-group">
+                        <label for="seekName">Full Name</label>
+                        <input type="text" id="seekName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seekEmail">Email Address</label>
+                        <input type="email" id="seekEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seekNeed">How can we help?</label>
+                        <textarea id="seekNeed" name="need" required></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-secondary" onclick="closeSeekerModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Global variables
         let currentSection = 1;
@@ -1712,9 +1601,6 @@
         };
 
         // Global functions
-        window.scrollToWaitlist = function() {
-            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
-        };
 
         function initForm() {
             if (formInitialized) return;
@@ -1821,9 +1707,16 @@
             document.body.style.overflow = 'auto';
         };
 
-        window.showSeekerForm = function() {
-            document.getElementById('seekerForm').style.display = 'block';
+        window.openSeekerForm = function() {
+            document.getElementById('seekerModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         };
+
+        window.closeSeekerModal = function() {
+            document.getElementById('seekerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
 
         window.updateSkills = function() {
             const expertise = document.querySelector('select[name="primaryExpertise"]').value;
