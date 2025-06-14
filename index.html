@@ -1693,6 +1693,7 @@
         let currentSection = 1;
         const totalSections = 4;
         let animationObserver;
+        let formInitialized = false;
 
         // Skills data for different expertise areas
         window.skillsByExpertise = {
@@ -1715,9 +1716,102 @@
             document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
         };
 
+        function initForm() {
+            if (formInitialized) return;
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    if (validateSection(currentSection)) {
+                        if (currentSection < totalSections) {
+                            updateSection(currentSection + 1);
+                        }
+                    }
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    if (currentSection > 1) {
+                        updateSection(currentSection - 1);
+                    }
+                });
+            }
+
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    if (!validateSection(currentSection)) {
+                        return false;
+                    }
+
+                    const form = document.getElementById('specialistForm');
+                    if (!form) {
+                        console.error('Form not found!');
+                        return;
+                    }
+
+                    const days = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(cb => cb.value).join(', ');
+                    const formats = Array.from(document.querySelectorAll('input[name="format"]:checked')).map(cb => cb.value).join(', ');
+                    const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value).join(', ');
+                    const timeSlots = Array.from(document.querySelectorAll('.time-slot.selected')).map(slot => slot.dataset.time).join(', ');
+
+                    form.querySelectorAll('input[name^="selected"]').forEach(input => input.remove());
+
+                    form.insertAdjacentHTML('beforeend', `
+                        <input type="hidden" name="selectedDays" value="${escapeHtml(days)}">
+                        <input type="hidden" name="selectedFormats" value="${escapeHtml(formats)}">
+                        <input type="hidden" name="selectedSkills" value="${escapeHtml(skills)}">
+                        <input type="hidden" name="selectedTimeSlots" value="${escapeHtml(timeSlots)}">`);
+
+                    const timeSlotsInput = document.querySelector('input[name="timeSlots"]');
+                    if (timeSlotsInput) {
+                        timeSlotsInput.value = timeSlots;
+                    }
+
+                    form.submit();
+                });
+            }
+
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    updateTimeSlots();
+                });
+            });
+
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.closest('.checkbox-item').classList.add('selected');
+                    } else {
+                        this.closest('.checkbox-item').classList.remove('selected');
+                    }
+                });
+            });
+
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('specialistModal');
+                if (event.target == modal) {
+                    window.closeModal();
+                }
+            });
+
+            const initialExpertise = document.querySelector('select[name="primaryExpertise"]');
+            if (initialExpertise && initialExpertise.value) {
+                window.updateSkills();
+            }
+
+            formInitialized = true;
+        }
+
         window.openSpecialistForm = function() {
             document.getElementById('specialistModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
+            if (!formInitialized) {
+                initForm();
+            }
             currentSection = 1;
             updateSection(1);
         };
@@ -1942,102 +2036,7 @@
                 animationObserver.observe(el);
             });
 
-            // Event listeners for form navigation buttons
-            const nextBtn = document.getElementById('nextBtn');
-            const prevBtn = document.getElementById('prevBtn');
-            const submitBtn = document.getElementById('submitBtn');
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                    if (validateSection(currentSection)) {
-                        if (currentSection < totalSections) {
-                            updateSection(currentSection + 1);
-                        }
-                    }
-                });
-            }
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    if (currentSection > 1) {
-                        updateSection(currentSection - 1);
-                    }
-                });
-            }
-
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function() {
-                    if (!validateSection(currentSection)) {
-                        return false;
-                    }
-                    
-                    // Prepare the form data
-                    const form = document.getElementById('specialistForm');
-                    if (!form) {
-                        console.error('Form not found!');
-                        return;
-                    }
-                    
-                    // Collect and add checkbox data
-                    const days = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(cb => cb.value).join(', ');
-                    const formats = Array.from(document.querySelectorAll('input[name="format"]:checked')).map(cb => cb.value).join(', ');
-                    const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value).join(', ');
-                    const timeSlots = Array.from(document.querySelectorAll('.time-slot.selected')).map(slot => slot.dataset.time).join(', ');
-                    
-                    // Remove any existing hidden inputs
-                    form.querySelectorAll('input[name^="selected"]').forEach(input => input.remove());
-                    
-                    // Add hidden fields with escaped values for XSS protection
-                    form.insertAdjacentHTML('beforeend', `
-                        <input type="hidden" name="selectedDays" value="${escapeHtml(days)}">
-                        <input type="hidden" name="selectedFormats" value="${escapeHtml(formats)}">
-                        <input type="hidden" name="selectedSkills" value="${escapeHtml(skills)}">
-                        <input type="hidden" name="selectedTimeSlots" value="${escapeHtml(timeSlots)}">
-                    `);
-                    
-                    // Update the timeSlots input
-                    const timeSlotsInput = document.querySelector('input[name="timeSlots"]');
-                    if (timeSlotsInput) {
-                        timeSlotsInput.value = timeSlots;
-                    }
-                    
-                    // Submit the form
-                    form.submit();
-                });
-            }
-
-            // Time slots event listeners
-            document.querySelectorAll('.time-slot').forEach(slot => {
-                slot.addEventListener('click', function() {
-                    this.classList.toggle('selected');
-                    updateTimeSlots();
-                });
-            });
-
-            // Checkboxes event listeners
-            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        this.closest('.checkbox-item').classList.add('selected');
-                    } else {
-                        this.closest('.checkbox-item').classList.remove('selected');
-                    }
-                });
-            });
-
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                const modal = document.getElementById('specialistModal');
-                if (event.target == modal) {
-                    window.closeModal();
-                }
-            });
-
-            // Initialize skills if expertise is already selected
-            const initialExpertise = document.querySelector('select[name="primaryExpertise"]');
-            if (initialExpertise && initialExpertise.value) {
-                window.updateSkills();
-            }
+            // Form initialization happens when the specialist modal is opened
         });
 
         // Clean up observer on page unload
